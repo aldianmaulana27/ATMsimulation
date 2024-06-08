@@ -1,16 +1,16 @@
 package com.atm.simulation.service.impl;
 
 import com.atm.simulation.entity.User;
-import com.atm.simulation.repository.UserRepository;
+import com.atm.simulation.repository.DetailAccountRepository;
 import com.atm.simulation.service.UserService;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
+    private DetailAccountRepository detailAccountRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(DetailAccountRepository detailAccountRepository) {
+        this.detailAccountRepository = detailAccountRepository;
 
     }
 
@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
 //            System.out.println("Name : " + user.getName() +"\nPIN : " + user.getAccount().getPin() +
 //                    "\nBalance : " + user.getBalance().getBalance() +"\nAccount Number : " + user.getAccount().getAccountNumber() + "\n");
 //        }
-        return userRepository.getAll();
+        return detailAccountRepository.getAll();
     }
 
     @Override
     public User showUser(String name) {
-        for (User user : userRepository.getAll()){
+        for (User user : detailAccountRepository.getAll()){
             if(name.equalsIgnoreCase(user.getName())){
                 return user;
             }
