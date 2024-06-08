@@ -5,15 +5,14 @@ import com.atm.simulation.entity.DetailAccount;
 
 import java.util.List;
 
-public interface UserRepository {
+public interface DetailAccountRepository {
 
-    void addUser();
 
     List<DetailAccount> getAll();
 
-    DetailAccount getUser(String name);
+    DetailAccount getDetailAccount(Integer accNumb);
 
     void add(DetailAccount user);
 
-    void remove(String name);
+    void remove(Integer accNumb);
 }

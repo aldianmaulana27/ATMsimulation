@@ -4,14 +4,14 @@ public class Account {
 
     private Integer accountNumber;
     private String pin;
-    private String userName;
+    private DetailAccount user;
     private Balance balance;
 
     public Account(){};
-    public Account(Integer accountNumber, String pin, String userName, Balance balance){
+    public Account(Integer accountNumber, String pin, DetailAccount user, Balance balance){
         this.accountNumber = accountNumber;
         this.pin = pin;
-        this.userName = userName;
+        this.user = user;
         this.balance = balance;
     }
 
@@ -30,12 +30,12 @@ public class Account {
         this.pin = pin;
     }
 
-    public String getUserName() {
-        return userName;
+    public DetailAccount getUser() {
+        return user;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(DetailAccount user) {
+        this.user = user;
     }
 
     public Balance getBalance() {

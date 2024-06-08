@@ -1,40 +1,27 @@
 package com.atm.simulation.service.impl;
 
-import com.atm.simulation.entity.User;
+import com.atm.simulation.entity.DetailAccount;
 import com.atm.simulation.repository.DetailAccountRepository;
-import com.atm.simulation.service.UserService;
+import com.atm.simulation.repository.impl.DetailAccountRepositoryImpl;
+import com.atm.simulation.service.DetailAccountService;
 
 import java.util.List;
 
-public class UserServiceImpl implements UserService {
-    private DetailAccountRepository detailAccountRepository;
+public class DetailAccountServiceImpl implements DetailAccountService {
 
-    public UserServiceImpl(DetailAccountRepository detailAccountRepository) {
-        this.detailAccountRepository = detailAccountRepository;
-
-    }
-
+    private DetailAccountRepositoryImpl detailAccountRepository;
     @Override
-    public List<User> showAllUser() {
-//        for (User user : userRepository.getAll()){
-//            System.out.println("Name : " + user.getName() +"\nPIN : " + user.getAccount().getPin() +
-//                    "\nBalance : " + user.getBalance().getBalance() +"\nAccount Number : " + user.getAccount().getAccountNumber() + "\n");
-//        }
+    public List<DetailAccount> showAllUser() {
         return detailAccountRepository.getAll();
     }
 
     @Override
-    public User showUser(String name) {
-        for (User user : detailAccountRepository.getAll()){
-            if(name.equalsIgnoreCase(user.getName())){
-                return user;
-            }
-        }
-        return null;
+    public DetailAccount showUser(Integer accNumb) {
+        return detailAccountRepository.getDetailAccount(accNumb);
     }
 
     @Override
-    public void addUser(User user) {
-
+    public void addUser(DetailAccount detailAccount) {
+        detailAccountRepository.add(detailAccount);
     }
 }

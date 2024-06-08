@@ -24,6 +24,6 @@ public class ValidationUtil {
        return false;
     }
     public static boolean isNumeric(String str) {
-        return str.matches("-?\\d+(\\.\\d+)?");  // Matches integers and decimals
+        return str.matches("-?\\d+?");  // Matches integers and decimals
     }
 }
