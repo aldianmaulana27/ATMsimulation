@@ -53,8 +53,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void updateAccountBalance(Integer accNumb,Integer balance) {
-        List<Account> accounts = getAll();
-        for (Account account : accounts) {
+        for (Account account : listAccount) {
             if (account.getAccountNumber().equals(accNumb)) {
                 account.getBalance().setBalance(balance);
             }

@@ -9,7 +9,6 @@ import com.atm.simulation.service.BalanceService;
 
 public class BalanceServiceImpl implements BalanceService {
     private BalanceRepositoryImpl balanceRepository;
-    private AccountRepository accountRepository = new AccountRepositoryImpl();
 
     public BalanceServiceImpl(BalanceRepository balanceRepository) {
         this.balanceRepository = (BalanceRepositoryImpl) balanceRepository;
@@ -28,6 +27,5 @@ public class BalanceServiceImpl implements BalanceService {
     @Override
     public void updateBalance(Integer accNumb, Integer balance) {
         balanceRepository.updateBalance(accNumb,balance);
-        accountRepository.updateAccountBalance(accNumb,balance);
     }
 }

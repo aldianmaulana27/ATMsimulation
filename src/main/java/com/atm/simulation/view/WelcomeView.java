@@ -27,11 +27,8 @@ public class WelcomeView {
         var input = InputUtil.inputString("Enter Account Number : ");
         var inputPin = InputUtil.inputString("Enter PIN : ");
 
-        boolean check = ValidationUtil.checkLength(input, inputPin);
-        boolean check2 = ValidationUtil.isNumber(input, inputPin);
 
-        if (check2 && check){
-            Optional<Account> account = accountService.login(InputUtil.integerConvert(input),inputPin);
+            Optional<Account> account = accountService.login(input,inputPin);
             if (account.isPresent()){
                 TransactionView transactionView = new TransactionView(accountService);
                 transactionView.showMenu(account.get().getAccountNumber());
@@ -39,6 +36,6 @@ public class WelcomeView {
                 System.out.println("Invalid Account Number/PIN");
                 welcomeScreen();
             }
-        }
+
     }
 }

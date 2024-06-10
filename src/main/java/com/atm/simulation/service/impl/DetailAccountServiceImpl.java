@@ -1,7 +1,6 @@
 package com.atm.simulation.service.impl;
 
 import com.atm.simulation.entity.DetailAccount;
-import com.atm.simulation.repository.DetailAccountRepository;
 import com.atm.simulation.repository.impl.DetailAccountRepositoryImpl;
 import com.atm.simulation.service.DetailAccountService;
 

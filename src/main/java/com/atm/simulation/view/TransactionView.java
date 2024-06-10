@@ -3,10 +3,13 @@ package com.atm.simulation.view;
 import com.atm.simulation.entity.Account;
 import com.atm.simulation.service.AccountService;
 import com.atm.simulation.service.BalanceService;
+import com.atm.simulation.service.TransactionService;
+import com.atm.simulation.service.impl.TransactionServiceImpl;
 import com.atm.simulation.util.InputUtil;
 import com.atm.simulation.util.ValidationUtil;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class TransactionView {
@@ -22,21 +25,23 @@ public class TransactionView {
         TransactionView.balanceService = balanceService;
     }
 
-    public void showMenu() {
-    }
+
+    public void showMenu() {}
     public void showMenu(Integer accNumb) {
         transactionScreen(accNumb);
     }
 
 
     public static void transactionScreen(Integer accNumb) {
-
         System.out.println("""
                 1. Withdraw
                 2. Fund Transfer
                 3. Exit""");
 
-        var input = InputUtil.inputString("Please choose option[3]: ");
+        System.out.println("Please choose option[3]: \n");
+        var input = InputUtil.inputString("");
+
+
 
         if (input.equals("1")) {
             withdrawScreen(accNumb);
@@ -66,34 +71,27 @@ public class TransactionView {
     }
 
     public static void summaryScreen(String input, Integer accNumb) {
-        Account account = accountService.getAccount(accNumb);
-        Integer balance = account.getBalance().getBalance();
-
         int withdraw;
-
         switch (input) {
             case "1" -> withdraw = 10;
             case "2" -> withdraw = 50;
             case "3" -> withdraw = 100;
-            default -> {
-                withdraw = InputUtil.integerConvert(input);
-//                    balance = withdraw;
-            }
+            default -> withdraw = InputUtil.integerConvert(input);
         }
-        if (withdraw > balance) {
-            System.out.println("Insufficient balance $" + balance);
-            transactionScreen(accNumb);
-        } else {
-            Integer currentBalance = balance - withdraw;
-            balanceService.updateBalance(account.getAccountNumber(), currentBalance);
 
+        TransactionService transactionService = new TransactionServiceImpl(accountService);
+        Integer currentBalance;
+        if(input.length()!=1){
+            currentBalance = accountService.getAccount(accNumb).getBalance().getBalance();
+        }else{
+            currentBalance = transactionService.withdraw(accNumb,withdraw);
+        }
             System.out.println("Summary");
-            System.out.println("Date : " + new Date());
+            System.out.println("Date : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")));
             System.out.println("withdraw : $" + withdraw);
             System.out.println(("Balance : $" + currentBalance));
             System.out.println("1. Transaction \n" +
                     "2. Exit");
-            account.getBalance().setBalance(currentBalance);
             var input2 = InputUtil.inputString("Choose option[2]: ");
 
             if (input2.equals("1")) {
@@ -101,47 +99,32 @@ public class TransactionView {
             } else {
                 WelcomeView.welcomeScreen();
             }
-        }
     }
 
     public static void otherScreen(Integer accNumb) {
-        Account account = accountService.getAccount(accNumb);
         System.out.println("Other Withdraw");
         var input = InputUtil.inputString("Enter amount to withdraw: ");
-        boolean check = ValidationUtil.isNumeric(input);
-        if (!check) {
-            System.out.println("Invalid ammount");
-            transactionScreen(accNumb);
-        }
-        int inputInt = Integer.parseInt(input);
-        if (inputInt > 1000) {
-            System.out.println("Maximum amount to withdraw is $1000");
-            transactionScreen(accNumb);
-        }
-        if (inputInt % 10 != 0) {
-            System.out.println("Invalid ammount");
-            transactionScreen(accNumb);
-        }
-        if (inputInt > account.getBalance().getBalance()) {
-            System.out.println("Insufficient balance $" + inputInt);
-            transactionScreen(accNumb);
-        }
+        TransactionService transactionService = new TransactionServiceImpl(accountService);
+        transactionService.withdraw(accNumb,input);
         summaryScreen(input, accNumb);
-
     }
 
     public static void fundScreen(Integer accNumb) {
-        Account account = accountService.getAccount(accNumb);
-        Account accountDest = new Account();
         //step 1
         System.out.println("Please enter destination account and \n" +
                 "press enter to continue or");
-        var input = InputUtil.inputString("press cancel (Esc) to go back to Transaction:");
-//        int keyCode = KeyEvent.VK_ESCAPE;
 
-//        if (keyCode == KeyEvent.VK_ESCAPE) {
-//            transactionScreen();
-//        }
+        ValidationUtil.listener(accNumb);
+        var input = InputUtil.inputString("press cancel (Esc) to go back to Transaction: ");
+        String value = ValidationUtil.getValue();
+        if(value.equalsIgnoreCase("esc")){
+            ValidationUtil.setValue("");
+            transactionScreen(accNumb);
+        }else{
+            input = value;
+            System.out.println(value);
+            ValidationUtil.setValue("");
+        }
 
         //step 2 amount
         System.out.println("Please enter transfer amount and press enter to continue or ");
@@ -163,9 +146,8 @@ public class TransactionView {
         Random random = new Random();
         int randomNumber = random.nextInt(900000) + 100000;
 
-
         System.out.println("Transfer Confirmation\n" +
-                "Destination Account : " + input + "\n" +
+                "Destination Account : " + input.replace("\n","") + "\n" +
                 "Transfer Amount     : $" + amount + "\n" +
                 "Reference Number    : " + randomNumber + "\n" +
                 "\n" +
@@ -176,64 +158,18 @@ public class TransactionView {
 
         if (input4.equals("1")) {
             //validate step 1
-            if (input.equals("Esc")) {
-                transactionScreen(accNumb);
-            }
-            //numeric validation
-            if (!ValidationUtil.isNumeric(input)) {
-                System.out.println("Invalid account");
-                fundScreen(accNumb);
-            }
-            accountDest = accountService.getAccount(InputUtil.integerConvert(input));
-            //validate account
-            if (accountDest == null) {
-                System.out.println("Invalid account");
-                fundScreen(accNumb);
-            }
-
-            //validate step 2
-            boolean check = ValidationUtil.isNumeric(amount);
-            if (!check) {
-                System.out.println("Invalid amount");
-                fundScreen(accNumb);
-            }
-
-            if (amount.isBlank() || amount.isEmpty()) {
-                transactionScreen(accNumb);
-            }
-            //validate
-            if (Integer.parseInt(amount) > 1000) {
-                System.out.println("Maximum amount to transfer is $1000");
-                fundScreen(accNumb);
-            } else if (Integer.parseInt(amount) < 1) {
-                System.out.println("Minimum amount to transfer is $1");
-                fundScreen(accNumb);
-            }
-            if (!ValidationUtil.isNumeric(amount)) {
-                System.out.println("Invalid account");
-                fundScreen(accNumb);
-            }
-
-            if (Integer.parseInt(amount) > account.getBalance().getBalance()) {
-                System.out.println("Insufficient balance $" + amount);
-                fundScreen(accNumb);
-            } else {
-                balanceService.updateBalance(accNumb, account.getBalance().getBalance() - Integer.parseInt(amount));
-                assert accountDest != null;
-                balanceService.updateBalance(InputUtil.integerConvert(input), Integer.parseInt(amount) + accountDest.getBalance().getBalance());
-                fundSummaryScreen(Integer.parseInt(amount), randomNumber, InputUtil.integerConvert(input), accNumb);
-            }
+            TransactionService transactionService = new TransactionServiceImpl(accountService);
+            transactionService.fundTransaction(accNumb,input,amount,randomNumber);
         } else if (input4.equals("2")) {
             fundScreen(accNumb);
         }
 
     }
+
     public static void fundSummaryScreen(Integer trfAmount, Integer refNum, Integer accDest, Integer accNumb){
         Account account = accountService.getAccount(accNumb);
-        Account accountDest = accountService.getAccount(accDest);
-
         System.out.println("Fund Transfer Summary\n" +
-                "Destination Account : " + accountDest.getAccountNumber() + "\n" +
+                "Destination Account : " + accDest + "\n" +
                 "Transfer Amount     : $" + trfAmount + "\n" +
                 "Reference Number    : " + refNum + "\n" +
                 "Balance             : $" + account.getBalance().getBalance() + "\n" +
