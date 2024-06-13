@@ -45,4 +45,32 @@ public class Account {
     public void setBalance(Balance balance) {
         this.balance = balance;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountNumber=" + accountNumber +
+                ", pin='" + pin + '\'' +
+                ", user=" + user.getName() +
+                ", balance=" + balance.getBalance() +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+        return accountNumber.equals(account.accountNumber) && pin.equals(account.pin) && user.getName().equals(account.user.getName()) && balance.getBalance().equals(account.balance.getBalance());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = accountNumber.hashCode();
+        result = 31 * result + pin.hashCode();
+        result = 31 * result + user.hashCode();
+        result = 31 * result + balance.hashCode();
+        return result;
+    }
 }

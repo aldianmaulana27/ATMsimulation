@@ -1,8 +1,6 @@
 package com.atm.simulation.repository.impl;
 
 import com.atm.simulation.entity.Account;
-import com.atm.simulation.entity.Balance;
-import com.atm.simulation.entity.DetailAccount;
 import com.atm.simulation.repository.AccountRepository;
 
 import java.util.ArrayList;
@@ -16,13 +14,19 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void addAccount(Account account) {
-        listAccount.add(account);
-    }
+        boolean duplicate;
+        Optional<Account> acc = getAccount(account.getAccountNumber());
+        if(acc.isEmpty()){
+             listAccount.add(account);
+        }else {
+            duplicate = account.equals(acc.get());
+            if (duplicate){
+                System.out.println("duplicate Account "+account.toString()+"\n"+
+                        getAll().toString());
+            }
 
-    @Override
-    public void addAccount() {
-        addAccount(new Account(112233,"012108", new DetailAccount("John Doe",112233), new Balance(100,112233)));
-        addAccount(new Account(112244,"932012", new DetailAccount("Jane Doe",112244), new Balance(30,112244)));
+        }
+
     }
 
     @Override

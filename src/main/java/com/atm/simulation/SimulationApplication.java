@@ -6,6 +6,8 @@ import com.atm.simulation.service.AccountService;
 import com.atm.simulation.service.TransactionService;
 import com.atm.simulation.service.impl.AccountServiceImpl;
 import com.atm.simulation.service.impl.TransactionServiceImpl;
+import com.atm.simulation.util.InputUtil;
+import com.atm.simulation.util.ValidationUtil;
 import com.atm.simulation.view.TransactionView;
 import com.atm.simulation.view.TransferView;
 import com.atm.simulation.view.WelcomeView;
@@ -16,15 +18,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SimulationApplication {
 
 	public static void main(String[] args) {
+//		"doc/DataAccount.csv";
 		AccountRepository accountRepository = new AccountRepositoryImpl();
-		accountRepository.addAccount();
-
-		AccountService accountService = new AccountServiceImpl(accountRepository);
-		WithdrawView withdrawView = new WithdrawView(accountService);
-		TransferView transferView = new TransferView(accountService);
-		TransactionService transactionService = new TransactionServiceImpl(accountService);
-		TransactionView transactionView = new TransactionView(withdrawView,transferView, transactionService);
-		WelcomeView welcome = new WelcomeView(accountService,transactionView);
+		InputUtil inputUtil = new InputUtil();
+		ValidationUtil validationUtil = new ValidationUtil();
+		AccountService accountService = new AccountServiceImpl(accountRepository,validationUtil);
+		WithdrawView withdrawView = new WithdrawView(accountService,inputUtil);
+		TransferView transferView = new TransferView(accountService, inputUtil, validationUtil);
+		TransactionService transactionService = new TransactionServiceImpl(accountService,validationUtil);
+		TransactionView transactionView = new TransactionView(withdrawView,transferView, transactionService, inputUtil);
+		WelcomeView welcome = new WelcomeView(accountService,transactionView,inputUtil);
+		welcome.uploadFIle("doc/DataAccount.csv");
 		welcome.showMenu();
 	}
 

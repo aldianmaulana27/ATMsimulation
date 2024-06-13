@@ -4,6 +4,7 @@ import com.atm.simulation.entity.Account;
 import com.atm.simulation.repository.AccountRepository;
 import com.atm.simulation.repository.impl.AccountRepositoryImpl;
 import com.atm.simulation.service.impl.AccountServiceImpl;
+import com.atm.simulation.util.ValidationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +12,14 @@ import java.util.Optional;
 
 public class AccountServiceTest {
 
+    private ValidationUtil validationUtil;
     private AccountRepository accountRepository = new AccountRepositoryImpl();
-    private AccountService accountService = new AccountServiceImpl(accountRepository);
+    private AccountService accountService = new AccountServiceImpl(accountRepository, validationUtil);
 
-    @BeforeEach
-    void addAccount(){
-        accountRepository.addAccount();
-    }
+//    @BeforeEach
+//    void addAccount(){
+//        accountRepository.addAccount();
+//    }
 
     @Test
     void testGetAccount(){

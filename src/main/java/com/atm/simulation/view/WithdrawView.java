@@ -13,8 +13,11 @@ public class WithdrawView {
     private TransactionView transactionView;
     private WelcomeView welcomeView;
     private TransactionService transactionService;
-    public WithdrawView(AccountService accountService){
+    private InputUtil inputUtil;
+
+    public WithdrawView(AccountService accountService, InputUtil inputUtil){
         this.accountService = accountService;
+        this.inputUtil = inputUtil;
     }
 
     public void setParentView(TransactionView transactionView, WelcomeView welcomeView, TransactionService transactionService) {
@@ -30,7 +33,7 @@ public class WithdrawView {
                 3. $100
                 4. Other
                 5. Back""");
-        var input = InputUtil.inputString("Please choose option[5]: ");
+        var input = inputUtil.inputString("Please choose option[5]: ");
 
         switch (input) {
             case "1", "2", "3" -> summaryScreen(input, accNumb);
@@ -45,7 +48,7 @@ public class WithdrawView {
             case "1" -> withdraw = 10;
             case "2" -> withdraw = 50;
             case "3" -> withdraw = 100;
-            default -> withdraw = InputUtil.integerConvert(input);
+            default -> withdraw = Integer.parseInt(input);
         }
 
         Integer currentBalance = 0;
@@ -65,7 +68,7 @@ public class WithdrawView {
         System.out.println(("Balance : $" + currentBalance));
         System.out.println("1. Transaction \n" +
                 "2. Exit");
-        var input2 = InputUtil.inputString("Choose option[2]: ");
+        var input2 = inputUtil.inputString("Choose option[2]: ");
 
         if (input2.equals("1")) {
             transactionView.transactionScreen(accNumb);
@@ -76,7 +79,7 @@ public class WithdrawView {
 
     public void otherScreen(Integer accNumb) {
         System.out.println("Other Withdraw");
-        var input = InputUtil.inputString("Enter amount to withdraw: ");
+        var input = inputUtil.inputString("Enter amount to withdraw: ");
         try {
             transactionService.withdraw(accNumb,input);
         } catch (Exception e){
