@@ -13,8 +13,6 @@ import java.util.Optional;
 public class AccountRepositoryImpl implements AccountRepository {
 
     public List<Account> listAccount = new ArrayList<>();
-    private final DetailAccountRepositoryImpl detailAccountRepository = new DetailAccountRepositoryImpl();
-    private final BalanceRepositoryImpl balanceRepository = new BalanceRepositoryImpl();
 
     @Override
     public void addAccount(Account account) {

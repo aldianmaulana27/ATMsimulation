@@ -1,9 +1,7 @@
 package com.atm.simulation.service.impl;
 
 import com.atm.simulation.entity.Balance;
-import com.atm.simulation.repository.AccountRepository;
 import com.atm.simulation.repository.BalanceRepository;
-import com.atm.simulation.repository.impl.AccountRepositoryImpl;
 import com.atm.simulation.repository.impl.BalanceRepositoryImpl;
 import com.atm.simulation.service.BalanceService;
 

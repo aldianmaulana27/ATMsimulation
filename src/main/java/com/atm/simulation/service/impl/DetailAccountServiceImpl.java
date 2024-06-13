@@ -9,6 +9,7 @@ import java.util.List;
 public class DetailAccountServiceImpl implements DetailAccountService {
 
     private DetailAccountRepositoryImpl detailAccountRepository;
+
     @Override
     public List<DetailAccount> showAllUser() {
         return detailAccountRepository.getAll();
