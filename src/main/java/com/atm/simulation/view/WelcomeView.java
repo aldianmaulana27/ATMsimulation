@@ -38,9 +38,6 @@ public class WelcomeView {
 
     }
     public void welcomeScreen(){
-        for (Account account : accountService.showAllAccount()){
-            System.out.println(account.toString());
-        }
         System.out.println("Menu");
         var input = inputUtil.inputString("Enter Account Number : ");
         var inputPin = inputUtil.inputString("Enter PIN : ");

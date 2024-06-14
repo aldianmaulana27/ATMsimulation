@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class InputUtil {
@@ -14,6 +16,10 @@ public class InputUtil {
         System.out.println(info);
         String data = scanner.nextLine();
         return data;
+    }
+    public LocalDateTime formatDate(LocalDateTime date){
+        date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"));
+        return date;
     }
 
     public String uploadDoc(String value) {

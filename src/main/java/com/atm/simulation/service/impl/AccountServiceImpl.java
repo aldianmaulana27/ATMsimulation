@@ -64,21 +64,15 @@ public class AccountServiceImpl implements AccountService {
     public void addAccountFromDoc(String builder) {
         List<String> value = List.of(builder.split("\r\n"));
         List<Account> accounts = new ArrayList<>();
-        boolean sameAccountNo ;
         for (int i = 1; i < value.size(); i++) {
             List<String> data = List.of(value.get(i).split(";"));
             Account account = new Account(Integer.parseInt(data.get(3)), data.get(1),new DetailAccount(data.get(0), Integer.parseInt(data.get(3))), new Balance(Integer.parseInt(data.get(2)),Integer.parseInt(data.get(3))));
             if(!accounts.isEmpty()){
-                sameAccountNo = validationUtil.validateSameAccountNumb(accounts,Integer.parseInt(data.get(3)));
-                if (!sameAccountNo) {
-                    accounts.add(account);
-                } else {
+                if (validationUtil.validateSameAccountNumb(accounts,Integer.parseInt(data.get(3)))) {
                     throw new RuntimeException("Can't add with the same Account Number : " + data.get(3) + ", please update your doc and re-run the application");
                 }
-            }else{
-                accounts.add(account);
             }
-
+            accounts.add(account);
         }
         addAccounts(accounts);
     }

@@ -94,10 +94,7 @@ public class ValidationUtil {
     }
 
     public boolean validateSameAccountNumb(List<Account> accounts, Integer accNo){
-        for (Account account:accounts){
-            return account.getAccountNumber().equals(accNo);
-        }
-        return false;
+        return accounts.stream().filter(p -> p.getAccountNumber().equals(accNo)).isParallel();
     }
 
     public boolean validateSameAccount(List<Account> accounts, Account acc){

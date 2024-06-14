@@ -3,6 +3,7 @@ package com.atm.simulation.view;
 import com.atm.simulation.service.AccountService;
 import com.atm.simulation.service.TransactionService;
 import com.atm.simulation.util.InputUtil;
+import com.atm.simulation.util.ValidationUtil;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,10 +15,12 @@ public class WithdrawView {
     private WelcomeView welcomeView;
     private TransactionService transactionService;
     private InputUtil inputUtil;
+    private ValidationUtil validationUtil;
 
-    public WithdrawView(AccountService accountService, InputUtil inputUtil){
+    public WithdrawView(AccountService accountService, InputUtil inputUtil, ValidationUtil validationUtil){
         this.accountService = accountService;
         this.inputUtil = inputUtil;
+        this.validationUtil = validationUtil;
     }
 
     public void setParentView(TransactionView transactionView, WelcomeView welcomeView, TransactionService transactionService) {
@@ -57,13 +60,14 @@ public class WithdrawView {
         }else{
             try {
                 currentBalance = transactionService.withdraw(accNumb,withdraw);
+
             }catch (Exception e){
                 System.out.println(e.getMessage());
                 transactionView.transactionScreen(accNumb);
             }
         }
         System.out.println("Summary");
-        System.out.println("Date : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")));
+        System.out.println("Date : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a")));
         System.out.println("withdraw : $" + withdraw);
         System.out.println(("Balance : $" + currentBalance));
         System.out.println("1. Transaction \n" +
@@ -81,7 +85,12 @@ public class WithdrawView {
         System.out.println("Other Withdraw");
         var input = inputUtil.inputString("Enter amount to withdraw: ");
         try {
-            transactionService.withdraw(accNumb,input);
+            boolean check = validationUtil.isNumeric(input);
+            if (!check) {
+                throw new RuntimeException("Invalid ammount");
+            }
+            int withdraw = Integer.parseInt(input);
+            transactionService.withdraw(accNumb,withdraw);
         } catch (Exception e){
             System.out.println(e.getMessage());
             transactionView.transactionScreen(accNumb);

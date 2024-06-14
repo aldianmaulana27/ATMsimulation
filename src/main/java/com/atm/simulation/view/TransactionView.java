@@ -7,12 +7,14 @@ public class TransactionView {
     private WelcomeView welcomeView;
     private WithdrawView withdrawView;
     private TransferView transferView;
+    private TransactionHistoryView transactionHistoryView;
     private TransactionService transactionService;
     private InputUtil inputUtil;
 
-    public TransactionView(WithdrawView withdrawView, TransferView transferView, TransactionService transactionService,InputUtil inputUtil) {
+    public TransactionView(WithdrawView withdrawView, TransferView transferView,TransactionHistoryView transactionHistoryView, TransactionService transactionService,InputUtil inputUtil) {
         this.withdrawView = withdrawView;
         this.transferView = transferView;
+        this.transactionHistoryView = transactionHistoryView;
         this.transactionService = transactionService;
         this.inputUtil = inputUtil;
     }
@@ -25,7 +27,8 @@ public class TransactionView {
         System.out.println("""
                 1. Withdraw
                 2. Fund Transfer
-                3. Exit""");
+                3. Transaction History
+                4. Exit""");
 
         System.out.println("Please choose option[3]: \n");
         var input = inputUtil.inputString("");
@@ -34,7 +37,9 @@ public class TransactionView {
             withdrawView.withdrawScreen(accNumb);
         } else if (input.equals("2")) {
             transferView.fundScreen(accNumb);
-        } else if (input.equals("3") || input.isEmpty() || input.isBlank()) {
+        } else if (input.equals("3")) {
+            transactionHistoryView.showListHistory(accNumb);
+        } else if (input.equals("4") || input.isEmpty() || input.isBlank()) {
             welcomeView.welcomeScreen();
         } else {
             transactionScreen(accNumb);
