@@ -8,11 +8,13 @@ public class TransactionView {
     private WithdrawView withdrawView;
     private TransferView transferView;
     private TransactionService transactionService;
+    private InputUtil inputUtil;
 
-    public TransactionView(WithdrawView withdrawView, TransferView transferView, TransactionService transactionService) {
+    public TransactionView(WithdrawView withdrawView, TransferView transferView, TransactionService transactionService,InputUtil inputUtil) {
         this.withdrawView = withdrawView;
         this.transferView = transferView;
         this.transactionService = transactionService;
+        this.inputUtil = inputUtil;
     }
 
     public void showMenu(Integer accNumb) {
@@ -26,7 +28,7 @@ public class TransactionView {
                 3. Exit""");
 
         System.out.println("Please choose option[3]: \n");
-        var input = InputUtil.inputString("");
+        var input = inputUtil.inputString("");
 
         if (input.equals("1")) {
             withdrawView.withdrawScreen(accNumb);

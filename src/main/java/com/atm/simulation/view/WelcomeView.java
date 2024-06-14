@@ -10,10 +10,12 @@ public class WelcomeView {
 
     private  AccountService accountService;
     private  TransactionView transactionView;
+    private InputUtil inputUtil;
 
-    public WelcomeView(AccountService accountService, TransactionView transactionView){
+    public WelcomeView(AccountService accountService, TransactionView transactionView,InputUtil inputUtil){
         this.accountService = accountService;
         this.transactionView = transactionView;
+        this.inputUtil = inputUtil;
         this.transactionView.setParentView(this);
     }
 
@@ -26,8 +28,8 @@ public class WelcomeView {
 
     public void welcomeScreen(){
         System.out.println("Menu");
-        var input = InputUtil.inputString("Enter Account Number : ");
-        var inputPin = InputUtil.inputString("Enter PIN : ");
+        var input = inputUtil.inputString("Enter Account Number : ");
+        var inputPin = inputUtil.inputString("Enter PIN : ");
             Optional<Account> account = accountService.login(input,inputPin);
             if (account.isPresent()){
                 transactionView.showMenu(account.get().getAccountNumber());
