@@ -23,7 +23,7 @@ public class SimulationApplication {
 		InputUtil inputUtil = new InputUtil();
 		ValidationUtil validationUtil = new ValidationUtil();
 		AccountService accountService = new AccountServiceImpl(accountRepository,validationUtil);
-		WithdrawView withdrawView = new WithdrawView(accountService,inputUtil);
+		WithdrawView withdrawView = new WithdrawView(accountService,inputUtil,validationUtil);
 		TransferView transferView = new TransferView(accountService, inputUtil, validationUtil);
 		TransactionService transactionService = new TransactionServiceImpl(accountService,validationUtil);
 		TransactionView transactionView = new TransactionView(withdrawView,transferView, transactionService, inputUtil);

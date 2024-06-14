@@ -18,6 +18,12 @@ public class TransactionServiceImpl extends JTextField implements TransactionSer
 
     @Override
     public Integer withdraw(Integer accNo, Integer amount) {
+        if (amount > 1000) {
+            throw new RuntimeException("Maximum amount to withdraw is $1000");
+        }
+        if (amount % 10 != 0) {
+            throw new RuntimeException("Invalid ammount");
+        }
         Integer balance = accountService.getAccount(accNo).getBalance().getBalance();
         if (amount > balance) {
             throw new RuntimeException("Insufficient balance $" + balance);
@@ -27,27 +33,6 @@ public class TransactionServiceImpl extends JTextField implements TransactionSer
         }
     }
 
-    @Override
-    public Integer withdraw(Integer accNo, String amount) {
-        boolean check = validationUtil.isNumeric(amount);
-        if (!check) {
-            throw new RuntimeException("Invalid ammount");
-        }
-        int withdraw = Integer.parseInt(amount);
-        if (withdraw > 1000) {
-            throw new RuntimeException("Maximum amount to withdraw is $1000");
-        }
-        if (withdraw % 10 != 0) {
-            throw new RuntimeException("Invalid ammount");
-        }
-        Integer balance = accountService.getAccount(accNo).getBalance().getBalance();
-        if (withdraw > balance) {
-            throw new RuntimeException("Insufficient balance $" + withdraw);
-        } else {
-            accountService.updateAccountBalance(accNo,balance-withdraw);
-            return accountService.getAccount(accNo).getBalance().getBalance();
-        }
-    }
 
     @Override
     public void fundTransaction(Integer accNo,String accountDest, String amount, Integer random) {

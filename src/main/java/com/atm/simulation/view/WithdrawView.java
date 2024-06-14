@@ -3,6 +3,7 @@ package com.atm.simulation.view;
 import com.atm.simulation.service.AccountService;
 import com.atm.simulation.service.TransactionService;
 import com.atm.simulation.util.InputUtil;
+import com.atm.simulation.util.ValidationUtil;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,10 +15,12 @@ public class WithdrawView {
     private WelcomeView welcomeView;
     private TransactionService transactionService;
     private InputUtil inputUtil;
+    private ValidationUtil validationUtil;
 
-    public WithdrawView(AccountService accountService,InputUtil inputUtil){
+    public WithdrawView(AccountService accountService,InputUtil inputUtil, ValidationUtil validationUtil){
         this.accountService = accountService;
         this.inputUtil = inputUtil;
+        this.validationUtil = validationUtil;
     }
 
     public void setParentView(TransactionView transactionView, WelcomeView welcomeView, TransactionService transactionService) {
@@ -80,8 +83,14 @@ public class WithdrawView {
     public void otherScreen(Integer accNumb) {
         System.out.println("Other Withdraw");
         var input = inputUtil.inputString("Enter amount to withdraw: ");
+        boolean check = validationUtil.isNumeric(input);
+        if (!check) {
+            System.out.println("Invalid ammount");
+            transactionView.transactionScreen(accNumb);
+        }
+        int withdraw = Integer.parseInt(input);
         try {
-            transactionService.withdraw(accNumb,input);
+            transactionService.withdraw(accNumb,withdraw);
         } catch (Exception e){
             System.out.println(e.getMessage());
             transactionView.transactionScreen(accNumb);
