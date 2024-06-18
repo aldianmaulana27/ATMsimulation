@@ -84,12 +84,13 @@ public class WithdrawView {
     public void otherScreen(Integer accNumb) {
         System.out.println("Other Withdraw");
         var input = inputUtil.inputString("Enter amount to withdraw: ");
+        boolean check = validationUtil.isNumeric(input);
+        if (!check) {
+            System.out.println("Invalid ammount");
+            transactionView.transactionScreen(accNumb);
+        }
+        int withdraw = Integer.parseInt(input);
         try {
-            boolean check = validationUtil.isNumeric(input);
-            if (!check) {
-                throw new RuntimeException("Invalid ammount");
-            }
-            int withdraw = Integer.parseInt(input);
             transactionService.withdraw(accNumb,withdraw);
         } catch (Exception e){
             System.out.println(e.getMessage());
