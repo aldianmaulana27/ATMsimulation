@@ -1,7 +1,7 @@
 package com.atm.simulation.entity;
 
 
-import com.atm.simulation.util.Constants;
+import com.atm.simulation.enums.TransactionTypes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,13 +10,13 @@ public class TransactionHistory {
 
     private Integer accountNumber;
     private LocalDateTime date;
-    private String transactionType;
+    private TransactionTypes transactionType;
     private Integer amount;
     private Integer accountDestination;
     private Integer referenceNumber;
 
 
-    public TransactionHistory(Integer accountNumber, LocalDateTime date, String transactionType, Integer amount, Integer accountDestination, Integer referenceNumber) {
+    public TransactionHistory(Integer accountNumber, LocalDateTime date, TransactionTypes transactionType, Integer amount, Integer accountDestination, Integer referenceNumber) {
         this.accountNumber = accountNumber;
         this.date = date;
         this.transactionType = transactionType;
@@ -41,11 +41,11 @@ public class TransactionHistory {
         this.date = date;
     }
 
-    public String getTransactionType() {
+    public TransactionTypes getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(String transactionType) {
+    public void setTransactionType(TransactionTypes transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -75,14 +75,14 @@ public class TransactionHistory {
 
     @Override
     public String toString() {
-        if(transactionType.equalsIgnoreCase(Constants.TransactionType.WITHDRAW)){
+        if(transactionType.equals(TransactionTypes.WITHDRAW)){
             return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a")) +"\n"+
                     transactionType+ " $"+ amount+"\n";
         }else{
             return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"))+"\n"+
                     transactionType+ " $"+ amount +
-                    " to : " + accountDestination +
-                    ", refNumber :" + referenceNumber+"\n";
+                    " to " + accountDestination +
+                    ", refNumber : " + referenceNumber+"\n";
         }
 
     }

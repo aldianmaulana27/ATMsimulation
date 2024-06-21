@@ -2,10 +2,10 @@ package com.atm.simulation.service.impl;
 
 import com.atm.simulation.entity.Account;
 import com.atm.simulation.entity.TransactionHistory;
+import com.atm.simulation.enums.TransactionTypes;
 import com.atm.simulation.repository.TransactionHistoryRepository;
 import com.atm.simulation.service.AccountService;
 import com.atm.simulation.service.TransactionService;
-import com.atm.simulation.util.Constants;
 import com.atm.simulation.util.ValidationUtil;
 
 import javax.swing.*;
@@ -36,7 +36,7 @@ public class TransactionServiceImpl extends JTextField implements TransactionSer
             throw new RuntimeException("Insufficient balance $" + balance);
         }else {
             accountService.updateAccountBalance(accNo,balance-amount);
-            transactionHistoryRepository.addTransaction(new TransactionHistory(accNo, LocalDateTime.now(), Constants.TransactionType.WITHDRAW, amount,null,null));
+            transactionHistoryRepository.addTransaction(new TransactionHistory(accNo, LocalDateTime.now(), TransactionTypes.WITHDRAW, amount,null,null));
             return accountService.getAccount(accNo).getBalance().getBalance();
         }
     }
@@ -72,7 +72,7 @@ public class TransactionServiceImpl extends JTextField implements TransactionSer
         } else {
             accountService.updateAccountBalance(accNo, balance - Integer.parseInt(amount));
             accountService.updateAccountBalance(Integer.parseInt(accountDest), Integer.parseInt(amount) + accDest.getBalance().getBalance());
-            transactionHistoryRepository.addTransaction(new TransactionHistory(accNo,LocalDateTime.now(),Constants.TransactionType.FUND,Integer.parseInt(amount),Integer.parseInt(accountDest),random));
+            transactionHistoryRepository.addTransaction(new TransactionHistory(accNo,LocalDateTime.now(),TransactionTypes.TRANSFER,Integer.parseInt(amount),Integer.parseInt(accountDest),random));
         }
 
     }

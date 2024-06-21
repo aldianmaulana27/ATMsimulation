@@ -12,7 +12,7 @@ public class TransactionHistoryView {
     }
     public void showListHistory(Integer accNo){
         List<TransactionHistory> listData = transactionService.getAllListByAccNo(accNo);
-        System.out.println("Transaction History Account"+ accNo + " \n");
+        System.out.println("Transaction History Account "+ accNo + " \n");
         for (TransactionHistory transactionHistory : listData){
             System.out.println(transactionHistory.toString());
         }
