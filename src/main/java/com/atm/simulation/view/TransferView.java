@@ -12,40 +12,33 @@ public class TransferView {
 
     private WelcomeView welcomeView;
     private TransactionView transactionView;
-    private AccountService accountService;
     private TransactionService transactionService;
     private InputUtil inputUtil;
     private ValidationUtil validationUtil;
 
-    public TransferView(AccountService accountService, InputUtil inputUtil, ValidationUtil validationUtil){
-        this.accountService = accountService;
+    public TransferView( InputUtil inputUtil, ValidationUtil validationUtil){
         this.inputUtil = inputUtil;
         this.validationUtil = validationUtil;
     }
 
-    public void fundScreen(Integer accNumb) {
+    public void fundScreen(Account account) {
         //step 1
         System.out.println("Please enter destination account and \n" +
                 "press enter to continue or");
 
-        //to get key value using key listener
-        validationUtil.listener(accNumb);
         var input = inputUtil.inputString("press cancel (Esc) to go back to Transaction: ");
-        String value = validationUtil.getValue();
+        String value = input;
         if(value.equalsIgnoreCase("esc")){
-            validationUtil.setValue("");
-            transactionView.transactionScreen(accNumb);
+            transactionView.transactionScreen(account);
         }else{
             input = value;
-            System.out.println(value);
-            validationUtil.setValue("");
         }
 
         //step 2 amount
         System.out.println("Please enter transfer amount and press enter to continue or ");
         var amount = inputUtil.inputString("press enter to go back to Transaction:");
         if (amount.isBlank() || amount.isEmpty()) {
-            transactionView.transactionScreen(accNumb);
+            transactionView.transactionScreen(account);
         }
 
         //step 3 refNo
@@ -53,10 +46,10 @@ public class TransferView {
         var input3 = inputUtil.inputString("Press enter to continue or click 'x' Enter to go back to Transaction: ");
 
         if (input3.equalsIgnoreCase("x")) {
-            transactionView.transactionScreen(accNumb);
+            transactionView.transactionScreen(account);
         } else if (!input3.isEmpty() || !input3.isBlank()) {
             System.out.println("Invalid Reference Number");
-            fundScreen(accNumb);
+            fundScreen(account);
         }
 
         Random random = new Random();
@@ -75,32 +68,30 @@ public class TransferView {
         if (input4.equals("1")) {
             //validate step 1
             try {
-                transactionService.fundTransaction(accNumb,input,amount,randomNumber);
+                transactionService.fundTransaction(account,input,amount,randomNumber);
             }catch (Exception e){
-                System.out.println(e.getMessage()
-                );
-                fundScreen(accNumb);
+                System.out.println(e.getMessage());
+                fundScreen(account);
             }
-            fundSummaryScreen(Integer.parseInt(amount), randomNumber,Integer.parseInt(input), accNumb);
+            fundSummaryScreen(Integer.parseInt(amount), randomNumber,Integer.parseInt(input), account);
         } else if (input4.equals("2")) {
-            fundScreen(accNumb);
+            fundScreen( account);
         }
 
     }
 
-    public void fundSummaryScreen(Integer trfAmount, Integer refNum, Integer accDest, Integer accNumb){
-        Account account = accountService.getAccount(accNumb);
+    public void fundSummaryScreen(Integer trfAmount, Integer refNum, Integer accDest, Account account){
         System.out.println("Fund Transfer Summary\n" +
                 "Destination Account : " + accDest + "\n" +
                 "Transfer Amount     : $" + trfAmount + "\n" +
                 "Reference Number    : " + refNum + "\n" +
-                "Balance             : $" + account.getBalance().getBalance() + "\n" +
+                "Balance             : $" + account.getBalance() + "\n" +
                 "\n" +
                 "1. Transaction\n" +
                 "2. Exit");
         var input = inputUtil.inputString("Choose option[2]");
         if (input.equals("1")) {
-            transactionView.transactionScreen(accNumb);
+            transactionView.transactionScreen( account);
         } else if (input.equals("2")) {
             welcomeView.welcomeScreen();
         }

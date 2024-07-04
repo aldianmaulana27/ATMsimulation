@@ -1,11 +1,12 @@
 package com.atm.simulation.util;
 
-import com.atm.simulation.view.TransactionView;
+import com.atm.simulation.entity.Account;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 public class ValidationUtil {
 
@@ -18,62 +19,6 @@ public class ValidationUtil {
             return true;
         }
         return false;
-    }
-
-    public void listener(Integer accNo){
-        JFrame frame = new JFrame("Key Listener Example");
-        JPanel panel = new JPanel();
-        JTextField textField = new JTextField(20);
-        JLabel label1 = new JLabel("close window after press esc to close or after input account numb destination");
-        JLabel label2 = new JLabel(" or ");
-        JLabel label3 = new JLabel("after input account numb destination");
-        JLabel label4 = new JLabel("and press enter in terminal");
-        textField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                // Check if ESC key is pressed (key code 27)
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    System.out.println("esc");
-                    moveChar("esc");
-                }else {
-                    char typedChar = e.getKeyChar(); // Get the typed character
-                    String typedString = String.valueOf(typedChar);
-                    moveChar(typedString);
-                }
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                // Unused
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                // Unused
-            }
-        });
-
-        panel.add(textField);
-        panel.add(label1, BorderLayout.CENTER);
-        panel.add(label2, BorderLayout.CENTER);
-        panel.add(label3, BorderLayout.CENTER);
-        panel.add(label4, BorderLayout.CENTER);
-        frame.add(panel);
-        frame.setSize(300, 200);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setVisible(true);
-
-    }
-
-    private String value ="";
-    public String getValue(){
-        return value = value;
-    }
-    public void setValue(String value){
-        this.value = value;
-    }
-    public void moveChar(String chars){
-        value += chars;
     }
 
     public boolean isNumber(String account, String pin) {
@@ -89,4 +34,5 @@ public class ValidationUtil {
     public boolean isNumeric(String str) {
         return str.matches("-?\\d+?");  // Matches integers and decimals
     }
+
 }

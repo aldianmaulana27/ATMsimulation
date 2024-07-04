@@ -1,13 +1,9 @@
 package com.atm.simulation.repository.impl;
 
 import com.atm.simulation.entity.Account;
-import com.atm.simulation.entity.Balance;
-import com.atm.simulation.entity.DetailAccount;
 import com.atm.simulation.repository.AccountRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class AccountRepositoryImpl implements AccountRepository {
 
@@ -20,8 +16,16 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void addAccount() {
-        addAccount(new Account(112233,"012108", new DetailAccount("John Doe",112233), new Balance(100,112233)));
-        addAccount(new Account(112244,"932012", new DetailAccount("Jane Doe",112244), new Balance(30,112244)));
+        addAccount(new Account(112233,"012108","John Deep", 100));
+        addAccount(new Account(112244,"932012","Johe Deep", 30));
+    }
+
+    @Override
+    public void addAccount(List<Account> accounts) {
+        Set<Account> list1 = new HashSet<>(listAccount);
+        Set<Account> list2 = new HashSet<>(accounts);
+        list2.removeAll(list1);
+        listAccount.addAll(accounts);
     }
 
     @Override
@@ -38,23 +42,9 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Optional<Account> getAccount(Integer accNo, String pin) {
         return listAccount.stream()
-                .filter(acc -> acc.getAccountNumber().equals(accNo) && acc.getPin().equalsIgnoreCase(pin)).findFirst();
-
-
-    }
-
-    @Override
-    public void remove(String name) {
+                .filter(acc -> acc.getAccountNumber().equals(accNo) && acc.checkPin(pin)).findFirst();
 
     }
 
-    @Override
-    public void updateAccountBalance(Integer accNumb,Integer balance) {
-        for (Account account : listAccount) {
-            if (account.getAccountNumber().equals(accNumb)) {
-                account.getBalance().setBalance(balance);
-            }
-        }
-    }
 
 }

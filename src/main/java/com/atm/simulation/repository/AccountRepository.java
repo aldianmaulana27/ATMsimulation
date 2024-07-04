@@ -11,13 +11,10 @@ public interface AccountRepository {
     void addAccount(Account account);
 
     void addAccount();
-
+    void addAccount(List<Account> accounts);
     List<Account> getAll();
 
     Optional<Account> getAccount(Integer name);
     Optional<Account> getAccount(Integer accNo, String pin);
 
-    void remove(String name);
-
-    void updateAccountBalance(Integer accNumb, Integer balance);
 }
