@@ -5,7 +5,7 @@ import com.atm.simulation.repository.AccountRepository;
 
 import java.util.*;
 
-public class AccountRepositoryImpl implements AccountRepository {
+public class AccountRepositoryImpl implements AccountRepository  {
 
     public List<Account> listAccount = new ArrayList<>();
 

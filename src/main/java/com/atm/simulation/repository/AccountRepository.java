@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface AccountRepository {
 
     void addAccount(Account account);
-
     void addAccount();
     void addAccount(List<Account> accounts);
     List<Account> getAll();

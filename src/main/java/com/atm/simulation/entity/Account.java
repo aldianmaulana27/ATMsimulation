@@ -1,9 +1,19 @@
 package com.atm.simulation.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Account {
+@Entity
+@Table(name = "account")
+public class Account implements Serializable {
 
+    @Id
+    @Column(name = "account_number")
     private Integer accountNumber;
     private String pin;
     private String name;

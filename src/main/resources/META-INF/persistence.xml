@@ -1,0 +1,23 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="mitrais" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>com.atm.simulation.entity.Account</class>
+        <class>com.atm.simulation.entity.TransactionHistory</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="${spring.datasource.driver-class-name}"/>
+            <property name="javax.persistence.jdbc.url" value="${spring.datasource.url}"/>
+            <property name="javax.persistence.jdbc.user" value="${spring.datasource.username}"/>
+            <property name="javax.persistence.jdbc.password" value="${spring.datasource.password}"/>
+
+            <!-- Hibernate properties -->
+            <property name="hibernate.dialect" value="${spring.jpa.properties.hibernate.dialect}"/>
+            <property name="hibernate.hbm2ddl.auto" value="${spring.jpa.hibernate.ddl-auto}"/>
+            <property name="hibernate.show_sql" value="${spring.jpa.show-sql}"/>
+
+        </properties>
+
+
+    </persistence-unit>
+</persistence>
