@@ -1,8 +1,16 @@
 package com.atm.simulation.util;
 
+import com.atm.simulation.entity.Account;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
+
 public class ValidationUtil {
 
-    public static boolean checkLength(String account, String pin){
+    public boolean checkLength(String account, String pin){
         if(account.length() != 6){
             System.out.println("Account Number should have 6 digits length");
         }else if(pin.length() != 6){
@@ -13,7 +21,7 @@ public class ValidationUtil {
         return false;
     }
 
-    public static boolean isNumber(String account, String pin) {
+    public boolean isNumber(String account, String pin) {
        if(!isNumeric(account)){
            System.out.println("Account Number should only contains numbers");
        }else if(!isNumeric(pin)){
@@ -23,7 +31,8 @@ public class ValidationUtil {
        }
        return false;
     }
-    public static boolean isNumeric(String str) {
-        return str.matches("-?\\d+(\\.\\d+)?");  // Matches integers and decimals
+    public boolean isNumeric(String str) {
+        return str.matches("-?\\d+?");  // Matches integers and decimals
     }
+
 }

@@ -1,35 +1,50 @@
 package com.atm.simulation.repository.impl;
 
 import com.atm.simulation.entity.Account;
-import com.atm.simulation.entity.User;
 import com.atm.simulation.repository.AccountRepository;
 
-import java.util.Objects;
+import java.util.*;
 
 public class AccountRepositoryImpl implements AccountRepository {
-    UserRepositoryImpl userRepository;
+
+    public List<Account> listAccount = new ArrayList<>();
 
     @Override
-    public Account getAccount(String userName) {
-        for (User user : userRepository.listUser) {
-            if(userName.equalsIgnoreCase(user.getName())){
-                return user.getAccount();
-            }
-        }
-        return null;
-    }
-    @Override
-    public Account getAccountByAccNumb(Integer accountNumber){
-        for (User user : userRepository.listUser) {
-            if(Objects.equals(accountNumber, user.getAccount().getAccountNumber())){
-                return user.getAccount();
-            }
-        }
-        return null;
+    public void addAccount(Account account) {
+        listAccount.add(account);
     }
 
     @Override
-    public void add(Account account) {
+    public void addAccount() {
+        addAccount(new Account(112233,"012108","John Deep", 100));
+        addAccount(new Account(112244,"932012","Johe Deep", 30));
+    }
+
+    @Override
+    public void addAccount(List<Account> accounts) {
+        Set<Account> list1 = new HashSet<>(listAccount);
+        Set<Account> list2 = new HashSet<>(accounts);
+        list2.removeAll(list1);
+        listAccount.addAll(accounts);
+    }
+
+    @Override
+    public List<Account> getAll() {
+        return listAccount;
+    }
+
+    @Override
+    public Optional<Account> getAccount(Integer accNumb) {
+        return listAccount.stream().filter(acc -> acc.getAccountNumber().equals(accNumb))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Account> getAccount(Integer accNo, String pin) {
+        return listAccount.stream()
+                .filter(acc -> acc.getAccountNumber().equals(accNo) && acc.checkPin(pin)).findFirst();
 
     }
+
+
 }
