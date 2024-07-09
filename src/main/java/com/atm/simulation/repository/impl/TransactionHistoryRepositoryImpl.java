@@ -17,7 +17,8 @@ public class TransactionHistoryRepositoryImpl implements TransactionHistoryRepos
     }
 
     @Override
-    public List<TransactionHistory> getAllTransactionHistory(Integer accNo) {
-        return listTransactionHistory.stream().sorted(Comparator.comparing(TransactionHistory::getDate).reversed()).filter(p -> p.getAccountNumber().equals(accNo)).limit(10).collect(Collectors.toList());
+    public List<TransactionHistory> getAllTransactionHistory(Integer accNo, int maxSize) {
+        return listTransactionHistory.stream().sorted(Comparator.comparing(TransactionHistory::getDate).reversed())
+                .filter(p -> p.getAccountNumber().equals(accNo)).limit(maxSize).collect(Collectors.toList());
     }
 }

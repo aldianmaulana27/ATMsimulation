@@ -13,5 +13,5 @@ public interface AccountService {
 
     Account getAccount(Integer name);
 
-    void addAccountFromDoc(String builder);
+    void addAccountFromDoc(List<Account> accounts);
 }

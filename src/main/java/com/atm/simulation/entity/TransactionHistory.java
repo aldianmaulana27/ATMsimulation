@@ -14,7 +14,6 @@ public class TransactionHistory {
     private Integer accountDestination;
     private Integer referenceNumber;
 
-
     public TransactionHistory(Integer accountNumber, LocalDateTime date, TransactionTypes transactionType, Integer amount, Integer accountDestination, Integer referenceNumber) {
         this.accountNumber = accountNumber;
         this.date = date;
@@ -41,14 +40,18 @@ public class TransactionHistory {
     @Override
     public String toString() {
         if(transactionType.equals(TransactionTypes.WITHDRAW)){
-            return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a")) +"\n"+
+            return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a")) +" "+
                     transactionType+ " $"+ amount+"\n";
+        } else if(transactionType.equals(TransactionTypes.DEPOSIT)){
+            return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"))+" "+
+                    transactionType+ " $"+ amount +
+                    " from " + accountDestination +
+                    ", refNumber : " + referenceNumber+"\n";
         }else{
-            return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"))+"\n"+
+            return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a"))+" "+
                     transactionType+ " $"+ amount +
                     " to " + accountDestination +
                     ", refNumber : " + referenceNumber+"\n";
         }
-
     }
 }

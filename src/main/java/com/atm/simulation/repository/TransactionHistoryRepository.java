@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TransactionHistoryRepository {
     void addTransactionHistory(TransactionHistory transactionHistory);
-    List<TransactionHistory> getAllTransactionHistory(Integer accNo);
+    List<TransactionHistory> getAllTransactionHistory(Integer accNo, int maxSize);
 }

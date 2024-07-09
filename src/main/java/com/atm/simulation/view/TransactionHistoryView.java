@@ -19,6 +19,5 @@ public class TransactionHistoryView {
         System.out.println("============ Account Number "+ account.getAccountNumber() +" ============");
         List<TransactionHistory> listTransactionHistory = transactionService.getAllTransactionHistory(account.getAccountNumber());
         System.out.println(listTransactionHistory.toString());
-
     }
 }

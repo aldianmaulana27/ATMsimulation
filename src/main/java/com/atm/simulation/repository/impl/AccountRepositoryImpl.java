@@ -22,9 +22,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void addAccount(List<Account> accounts) {
-        Set<Account> list1 = new HashSet<>(listAccount);
-        Set<Account> list2 = new HashSet<>(accounts);
-        list2.removeAll(list1);
+//        Set<Account> list1 = new HashSet<>(listAccount);
+//        Set<Account> list2 = new HashSet<>(accounts);
+//        list2.removeAll(list1);
         listAccount.addAll(accounts);
     }
 

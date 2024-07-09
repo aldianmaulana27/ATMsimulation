@@ -10,7 +10,6 @@ import com.atm.simulation.util.ValidationUtil;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionServiceImpl extends JTextField implements TransactionService {
@@ -55,7 +54,8 @@ public class TransactionServiceImpl extends JTextField implements TransactionSer
         }
         account.decreasBalance(Integer.parseInt(amount), false);
         addHistory(new TransactionHistory(account.getAccountNumber(), LocalDateTime.now(), TransactionTypes.TRANSFER,Integer.parseInt(amount),accDest.getAccountNumber(),randomNumber));
-
+        //this for add to receive account2
+        addHistory(new TransactionHistory(accDest.getAccountNumber(), LocalDateTime.now(), TransactionTypes.DEPOSIT,Integer.parseInt(amount),account.getAccountNumber(),randomNumber));
     }
 
     @Override
@@ -65,8 +65,6 @@ public class TransactionServiceImpl extends JTextField implements TransactionSer
 
     @Override
     public List<TransactionHistory> getAllTransactionHistory(Integer accNo) {
-       return transactionHistoryRepository.getAllTransactionHistory(accNo);
+       return transactionHistoryRepository.getAllTransactionHistory(accNo, 10);
     }
-
-
 }
