@@ -40,6 +40,7 @@ public class TransactionView {
             transferView.fundScreen(account);
         } else if (input.equals("3")) {
             transactionHistoryView.history(account);
+            transactionScreen(account);
          }else if (input.equals("4") || input.isEmpty() || input.isBlank()) {
             welcomeView.welcomeScreen();
         } else {

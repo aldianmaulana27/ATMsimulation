@@ -3,8 +3,10 @@ package com.atm.simulation.view;
 import com.atm.simulation.entity.Account;
 import com.atm.simulation.service.AccountService;
 import com.atm.simulation.service.AuthenticationService;
+import com.atm.simulation.service.FileReaderService;
 import com.atm.simulation.util.InputUtil;
 
+import java.util.List;
 import java.util.Optional;
 
 public class WelcomeView {
@@ -13,10 +15,12 @@ public class WelcomeView {
     private  TransactionView transactionView;
     private InputUtil inputUtil;
     private AuthenticationService authenticationService;
+    private FileReaderService fileReaderService;
 
-    public WelcomeView(AccountService accountService, AuthenticationService authenticationService, TransactionView transactionView, InputUtil inputUtil){
+    public WelcomeView(AccountService accountService, AuthenticationService authenticationService, FileReaderService fileReaderService, TransactionView transactionView, InputUtil inputUtil){
         this.accountService = accountService;
         this.authenticationService = authenticationService;
+        this.fileReaderService = fileReaderService;
         this.transactionView = transactionView;
         this.inputUtil = inputUtil;
         this.transactionView.setParentView(this);
@@ -32,7 +36,7 @@ public class WelcomeView {
     public void uploadFIle(String path){
         System.out.println("read file from this path : "+path);
         try {
-            String data = inputUtil.uploadDoc(path);
+            List<Account> data = fileReaderService.uploadDoc(path);
             accountService.addAccountFromDoc(data);
             welcomeScreen();
         }catch (Exception e){

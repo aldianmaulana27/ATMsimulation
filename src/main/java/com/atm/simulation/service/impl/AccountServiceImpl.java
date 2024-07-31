@@ -40,15 +40,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addAccountFromDoc(String builder) {
-        List<String> value = List.of(builder.split("\r\n"));
-        List<Account> accounts = new ArrayList<>();
+    public void addAccountFromDoc(List<Account> accounts) {
         Map<Integer,Account> listAcc = new HashMap<>();
-        for (int i = 1; i < value.size(); i++) {
-            List<String> data = List.of(value.get(i).split(";"));
-            Account account = new Account(Integer.parseInt(data.get(3)), data.get(1),data.get(0),Integer.parseInt(data.get(2)));
-            accounts.add(account);
-        }
         for (Account acc : accounts){
             if(listAcc.containsValue(acc)){
                 throw new RuntimeException("Can't add with the duplicate Account : " + acc.toString() +"\n ====== all records ======\n"+accounts+ ", please update your doc and re-run the application");
